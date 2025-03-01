@@ -42,13 +42,14 @@ class MessageController {
       return res.status(200).send({
         status: true,
         message: "Tạo session chat",
-        data: session_id,
+        session_id: session_id,
       });
     } catch (error) {
-      console.log(
-        "Error creating session: ",
-        error.response ? error.response.data : error.message
-      );
+      return res.status(500).send({
+        status: false,
+        message: "Lỗi khi tạo session chat",
+        error
+      });
     }
   }
 
@@ -71,7 +72,7 @@ class MessageController {
       );
 
       let answer = response.data.data.answer;
-      console.log(response.data.data.answer);
+      // console.log(response.data.data.answer);
 
       await History.findOneAndUpdate(
         { session_id },
@@ -81,21 +82,25 @@ class MessageController {
       return res.status(200).send({
         status: true,
         message: "Answer",
-        data: answer,
+        answer: answer,
       });
     } catch (error) {
-      console.log(
-        "Error creating session: ",
-        error.response ? error.response.data : error.message
-      );
+      return res.status(500).send({
+        status: false,
+        message: "Lỗi khi gửi câu hỏi",
+        error
+      });
     }
   }
 
   async getConversationList(req, res) {
     try {
-      const session_id = req.body.session_id;
+      console.log("session_id: ", req.params);
+      
+      const session_id = req.params.id;
+      
       const conv = await History.findOne({session_id: session_id});
-
+      
       return res.status(200).send({
         status: true,
         message: "Lịch sử chat",

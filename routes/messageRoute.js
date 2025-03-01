@@ -7,6 +7,6 @@ const router = express.Router()
 
 router.post("/create", messageController.createChatSession);
 router.post("/chat", messageController.sendAnswer);
-router.get("/conversation", messageController.getConversationList);
+router.get("/conversation/:id", messageController.getConversationList);
 
 module.exports = router
