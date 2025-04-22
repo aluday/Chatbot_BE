@@ -4,12 +4,12 @@ const History = require("../models/historyChatSchema");
 const BASE_URL = process.env.RAGFLOW_URL;
 const CHAT_ID = process.env.CHAT_ID;
 const ENDPOINT = `/${CHAT_ID}/completions`;
-
+const url = `${BASE_URL}${ENDPOINT}`;
 class MessageController {
   async createChatSession(req, res) {
     try {
       const response = await axios.post(
-        `http://localhost:9380/api/v1/chats/83a2ca98f51211efbd8a0242ac120006//completions`,
+        url,
         { stream: false },
         {
           headers: {
@@ -57,7 +57,7 @@ class MessageController {
     try {
       const { question, session_id } = req.body;
       const response = await axios.post(
-        `http://localhost:9380/api/v1/chats/83a2ca98f51211efbd8a0242ac120006//completions`,
+        url,
         {
           question: question,
           stream: false,
